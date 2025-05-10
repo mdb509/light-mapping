@@ -146,13 +146,10 @@ class DataMapper():
         df_mapped = pd.DataFrame(mapped_points)
         self.save_as_csv(df_mapped, "output.csv")
         
-        return mapped_points
-
-    
 if __name__ == '__main__':
     d = DataMapper()
     current_folder = os.path.dirname(os.path.abspath(__file__))
     d.gpx_to_csv(current_folder +"/data_input/Wanderung-2.gpx")
     d.biolog_to_csv(current_folder + "/data_input/BIOLOG.TXT")
-    result = d.map_bio_to_gpx(current_folder + "/data_output/output_gpx.csv", current_folder + "/data_output/output_biolog_6.csv")
+    d.map_bio_to_gpx(current_folder + "/data_output/output_gpx.csv", current_folder + "/data_output/output_biolog_6.csv")
 
