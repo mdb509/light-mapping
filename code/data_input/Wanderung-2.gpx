@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<gpx version="1.1" creator="https://www.komoot.de" xmlns="http://www.topografix.com/GPX/1/1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+  <metadata>
+    <name>Wanderung</name>
+    <author>
+      <link href="https://www.komoot.de">
+        <text>komoot</text>
+        <type>text/html</type>
+      </link>
+    </author>
+  </metadata>
+  <trk>
+    <name>Wanderung</name>
+    <trkseg>
+      <trkpt lat="48.008790" lon="7.817195">
+        <ele>296.998199</ele>
+        <time>2025-05-10T16:14:22.727Z</time>
+      </trkpt>
+      <trkpt lat="48.008803" lon="7.816966">
+        <ele>296.998199</ele>
+        <time>2025-05-10T16:14:42.182Z</time>
+      </trkpt>
+      <trkpt lat="48.008803" lon="7.816810">
+        <ele>296.998199</ele>
+        <time>2025-05-10T16:14:48.185Z</time>
+      </trkpt>
+      <trkpt lat="48.008782" lon="7.816671">
+        <ele>296.998199</ele>
+        <time>2025-05-10T16:14:56.190Z</time>
+      </trkpt>
+      <trkpt lat="48.008709" lon="7.816589">
+        <ele>296.998199</ele>
+        <time>2025-05-10T16:15:04.207Z</time>
+      </trkpt>
+      <trkpt lat="48.008706" lon="7.816438">
+        <ele>296.998199</ele>
+        <time>2025-05-10T16:15:15.188Z</time>
+      </trkpt>
+      <trkpt lat="48.008715" lon="7.816291">
+        <ele>296.998199</ele>
+        <time>2025-05-10T16:15:22.200Z</time>
+      </trkpt>
+      <trkpt lat="48.008717" lon="7.816152">
+        <ele>296.998199</ele>
+        <time>2025-05-10T16:15:30.185Z</time>
+      </trkpt>
+      <trkpt lat="48.008699" lon="7.816001">
+        <ele>296.998199</ele>
+        <time>2025-05-10T16:15:36.209Z</time>
+      </trkpt>
+      <trkpt lat="48.008710" lon="7.815853">
+        <ele>296.998199</ele>
+        <time>2025-05-10T16:15:44.210Z</time>
+      </trkpt>
+      <trkpt lat="48.008823" lon="7.815869">
+        <ele>296.998199</ele>
+        <time>2025-05-10T16:15:53.209Z</time>
+      </trkpt>
+      <trkpt lat="48.008915" lon="7.815905">
+        <ele>296.998199</ele>
+        <time>2025-05-10T16:16:01.207Z</time>
+      </trkpt>
+      <trkpt lat="48.008959" lon="7.816032">
+        <ele>296.998199</ele>
+        <time>2025-05-10T16:16:08.193Z</time>
+      </trkpt>
+      <trkpt lat="48.008968" lon="7.816176">
+        <ele>296.998199</ele>
+        <time>2025-05-10T16:16:15.214Z</time>
+      </trkpt>
+      <trkpt lat="48.009011" lon="7.816310">
+        <ele>296.998199</ele>
+        <time>2025-05-10T16:16:22.220Z</time>
+      </trkpt>
+      <trkpt lat="48.009078" lon="7.816413">
+        <ele>296.998199</ele>
+        <time>2025-05-10T16:16:30.208Z</time>
+      </trkpt>
+      <trkpt lat="48.009127" lon="7.816538">
+        <ele>296.998199</ele>
+        <time>2025-05-10T16:16:38.190Z</time>
+      </trkpt>
+      <trkpt lat="48.009155" lon="7.816667">
+        <ele>296.998199</ele>
+        <time>2025-05-10T16:16:46.199Z</time>
+      </trkpt>
+      <trkpt lat="48.009139" lon="7.816801">
+        <ele>296.998199</ele>
+        <time>2025-05-10T16:16:55.195Z</time>
+      </trkpt>
+      <trkpt lat="48.009054" lon="7.816857">
+        <ele>296.998199</ele>
+        <time>2025-05-10T16:17:04.198Z</time>
+      </trkpt>
+      <trkpt lat="48.008970" lon="7.816934">
+        <ele>296.998199</ele>
+        <time>2025-05-10T16:17:11.191Z</time>
+      </trkpt>
+      <trkpt lat="48.008957" lon="7.817084">
+        <ele>296.998199</ele>
+        <time>2025-05-10T16:17:19.220Z</time>
+      </trkpt>
+      <trkpt lat="48.008880" lon="7.817165">
+        <ele>296.998199</ele>
+        <time>2025-05-10T16:17:27.221Z</time>
+      </trkpt>
+      <trkpt lat="48.008795" lon="7.817213">
+        <ele>296.998199</ele>
+        <time>2025-05-10T16:17:35.220Z</time>
+      </trkpt>
+    </trkseg>
+  </trk>
+</gpx>

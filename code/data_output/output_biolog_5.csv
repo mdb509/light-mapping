@@ -1,0 +1,3 @@
+timestamp,date,time,battery_voltage_mV,temperature_celsius,measurement_µV,gain_factor
+1746900811,10.5.2025,18:13,4183,21.75,2203,8
+1746900813,10.5.2025,18:13,4183,21.75,1142,8
