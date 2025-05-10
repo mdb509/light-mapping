@@ -76,30 +76,28 @@ class DataMapper():
         gpx_timestamps = df_gpx['timestamp'].values
         
         mapped_points = []
-        count_match = 0
-        count_all = len(df_biolog['timestamp'])
+        matched_points = 0
+        all_points = len(df_biolog['timestamp'])
+
         for _, biolog in df_biolog.iterrows():
             
             # Finde die Position des biologischen Zeitstempels in den GPS-Zeitstempeln
-            corrected_time = biolog['timestamp'] - 7210  # to hours off
+            # TODO find correct offset, sensor unix timestamp is off
+            corrected_time = biolog['timestamp'] - 7210  
             pos = bisect.bisect_left(gpx_timestamps, corrected_time)
             # Vorhergehender GPS-Zeitstempel (falls vorhanden)
             if pos > 0:
                 prev_gps = df_gpx.iloc[pos - 1]
             else:
-                print("no previous")
                 continue
             
             # Nächster GPS-Zeitstempel (falls vorhanden)
             if pos < len(gpx_timestamps):
-                print(f"pos{pos}")
                 next_gps = df_gpx.iloc[pos]
             else:
-                print("no next")
                 continue
             
 
-            # Konvertiere datetime zu Unix timestamp
             t1 = prev_gps.loc['timestamp']
             t2 = next_gps.loc['timestamp']
             target_time  = corrected_time
@@ -108,7 +106,7 @@ class DataMapper():
             if not (t1 <= target_time <= t2):
                 raise ValueError("target_time liegt nicht zwischen den beiden GPS-Punkten")
             
-            count_match += 1
+            matched_points += 1
             # Verhältnis des Zielzeitpunkts zwischen den beiden Messpunkten
             ratio = (target_time - t1) / (t2 - t1)
             print(f"ratio {ratio}")
@@ -142,9 +140,9 @@ class DataMapper():
             })
             mapped_points.append(new_data_point)
 
-        print(f"Matched {count_match/count_all*100}%")
-        print(f"count_match {count_match}")
-        print(f"count_all {count_all}")
+        print(f"Matched {matched_points/all_points*100}%")
+        print(f"count_match {matched_points}")
+        print(f"count_all {all_points}")
         df_mapped = pd.DataFrame(mapped_points)
         self.save_as_csv(df_mapped, "output.csv")
         
