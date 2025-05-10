@@ -14,7 +14,7 @@ class DataMapper():
         print(f"CSV saved as {filename}")
 
     def gpx_to_csv(self, gpx_file):
-        """ reads gpx file and converts it to csv and saves it"""
+        """ Parse gpx file and converts it to csv and saves it"""
         # Parse GPX file
         with open(gpx_file, 'r') as gpx_file:
             gpx = gpxpy.parse(gpx_file)
@@ -35,9 +35,13 @@ class DataMapper():
 
     
     def biolog_to_csv(self, biolog_file):
+        """ Parse biolog file and converts it to csv and saves it"""
+        
+        # separte records
         record = 1
         data = []
 
+        # Parse Biolog file
         with open(biolog_file, 'r') as file:
             for line in file:
                 line = ' '.join(line.split())
@@ -60,58 +64,63 @@ class DataMapper():
                     'measurement_µV': point[6],
                     'gain_factor': point[7]
                 })
-            self.save_as_csv(data, f"output_biolog_{record}.csv")
+        self.save_as_csv(data, f"output_biolog_{record}.csv")
 
 
     def map_bio_to_gpx(self, gpx_filename, biolog_filename):
+        """ map gpx and biolog data using unix timestaps"""
         # Read csv for bio and gpx
         df_gpx = pd.read_csv(gpx_filename)
         df_biolog = pd.read_csv(biolog_filename)
 
-        # Sortiere die GPS/Bio-Zeitstempel (falls noch nicht sortiert)
+        # Ensure GPS/Bio timestamps are sorted (if not already sorted)
         df_gpx = df_gpx.sort_values(by='timestamp')
         df_biolog = df_biolog.sort_values(by='timestamp')
         
         # GPS-Timestamps
         gpx_timestamps = df_gpx['timestamp'].values
         
+        # store mapped points here
         mapped_points = []
+        
+        # count all matched points for ratio calculation
         matched_points = 0
         all_points = len(df_biolog['timestamp'])
 
         for _, biolog in df_biolog.iterrows():
             
-            # Finde die Position des biologischen Zeitstempels in den GPS-Zeitstempeln
-            # TODO find correct offset, sensor unix timestamp is off
+            # Find the position of the biolog timestamp in the GPS timestamps
+            # TODO find correct offset, sensor unix timestamp is off by 2h
             corrected_time = biolog['timestamp'] - 7210  
             pos = bisect.bisect_left(gpx_timestamps, corrected_time)
-            # Vorhergehender GPS-Zeitstempel (falls vorhanden)
+            
+            # Previous GPS timestamp (if available), else skip this datapoint
             if pos > 0:
                 prev_gps = df_gpx.iloc[pos - 1]
             else:
                 continue
             
-            # Nächster GPS-Zeitstempel (falls vorhanden)
+            # Next GPS timestamp (if available), else skip this datapoint
             if pos < len(gpx_timestamps):
                 next_gps = df_gpx.iloc[pos]
             else:
                 continue
             
-
+            # check if target time is between bove gps times
             t1 = prev_gps.loc['timestamp']
             t2 = next_gps.loc['timestamp']
             target_time  = corrected_time
-            print(f"\n\nt1: {t1}, target_time: {target_time}, t2: {t2}")
 
             if not (t1 <= target_time <= t2):
                 raise ValueError("target_time liegt nicht zwischen den beiden GPS-Punkten")
             
             matched_points += 1
-            # Verhältnis des Zielzeitpunkts zwischen den beiden Messpunkten
+
+            # Ratio between target timestamp and above GPS timestamps
+            # Calculate actuall gps point of measurment point
             ratio = (target_time - t1) / (t2 - t1)
-            print(f"ratio {ratio}")
             
-            # Interpoliere Latitude, Longitude und Höhe
+            # Interpolate latitude, longitude, and elevation
             prev_lat = prev_gps.loc['latitude']
             next_lat = next_gps.loc['latitude']
             prev_lon = prev_gps.loc['longitude']
@@ -119,18 +128,15 @@ class DataMapper():
 
             lat = prev_lat + (next_lat - prev_lat) * ratio
             lat = round(float(lat), 7)
+
             lon = prev_lon + (next_lon - prev_lon) * ratio
             lon = round(float(lon), 7)
 
-            
-
-            print(f"prev_lat: {prev_lat}, lat: {lat}, next_lat: {next_lat}")
-            print(f"prev_lon: {prev_lon}, lon: {lon}, next_lon: {next_lon}")
-            
             ele = None
             if prev_gps.loc['elevation'] is not None and next_gps.loc['elevation'] is not None:
                 ele = prev_gps.loc['elevation'] + (next_gps.loc['elevation'] - prev_gps.loc['elevation']) * ratio
-                ele = float(ele)
+                ele = round(float(ele),7)
+            
             # Create a new data point with all values from biolog but updated latitude, longitude, and elevation
             new_data_point = biolog.to_dict()
             new_data_point.update({
@@ -138,11 +144,13 @@ class DataMapper():
                 'longitude': lon,
                 'elevation': ele
             })
+            # Append new datapoint
             mapped_points.append(new_data_point)
 
+        # State ratio of how many datapoints from BIOLOG.TXT are mapped
         print(f"Matched {matched_points/all_points*100}%")
-        print(f"count_match {matched_points}")
-        print(f"count_all {all_points}")
+        print(f"match {matched_points}")
+        print(f"all {all_points}")
         df_mapped = pd.DataFrame(mapped_points)
         self.save_as_csv(df_mapped, "output.csv")
         
